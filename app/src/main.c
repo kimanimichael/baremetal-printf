@@ -4,10 +4,9 @@
 
 int main(){
 	BSP_init();
-while (true){
-	BSP_blueLedToggle();
-	for (int i = 0; i < 100000; i++) {
-	
+	while (true){
+		BSP_blueLedToggle();
+		BSP_Delay(1000);
 	}
 }
-}
+

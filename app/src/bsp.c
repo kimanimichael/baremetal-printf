@@ -1,7 +1,12 @@
 #include "../include/bsp.h"
+#include <inttypes.h>
+#include "../../common/include/cmsis/stm32f4xx.h"
+
+
+#define BSP_TICKS_PER_SEC 1000U
 
 void BSP_init() {
-    
+    SysTick_Config(84000000/BSP_TICKS_PER_SEC);
     BSP_ledInit();
 }
 
@@ -25,5 +30,32 @@ void BSP_blueLedOn() {
 
 void BSP_blueLedToggle() {
     GPIOx_ODR ^= (0b01 << 7);
+}
+
+uint32_t l_tickrCtr;
+
+void BSP_Delay(uint32_t ticks) {
+    uint32_t start = BSP_Tickr();
+    while ((BSP_Tickr() - start) < ticks)
+    {
+        /* code */
+
+    }
+    
+
+}
+
+uint32_t BSP_Tickr(void) {
+    uint32_t tickrCtr;
+
+    __disable_irq();
+    tickrCtr = l_tickrCtr;
+    __enable_irq();
+
+    return tickrCtr;
+}
+
+void SysTick_Handler(void) {
+    ++l_tickrCtr;
 }
 

@@ -1,5 +1,7 @@
 #ifndef __BSP__H
 #define __BSP__H
+#include <inttypes.h>
+
 
 //Base RCC register 0x4002 3800 + offset 0x30 to find RCC_AHB1ENR
 #define RCC_AHB1ENR (*((unsigned int *)(0x40023830)))
@@ -38,7 +40,20 @@ void BSP_blueLedOn();
  * @author @mikael
 */
 void BSP_blueLedToggle();
+/**
+ * @brief Implements a delay
+ * @author @Mike-Kimani
+ * @param ticks Number of ticks to wait for - delay of (ticks * 0.001)s
+*/
+void BSP_Delay(uint32_t ticks);
+/**
+ * @brief Get current number of ticks incremented by systick
+ * @return number of ticks
+ * @author Mike-Kimani
+*/
+uint32_t BSP_Tickr(void);
 
 int main();
 
 #endif
+
