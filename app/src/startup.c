@@ -12,6 +12,8 @@ void NMI_Handler(void);
 void HardFault_Handler(void);
 void Reset_Handler(void);
 
+void SystemInit(void);
+
 unsigned int *vectors[] __attribute__((section(".vectors"))) = 
 {
     (unsigned int *)0x20030000, //Pointer to the top of our stack memory
@@ -21,6 +23,8 @@ unsigned int *vectors[] __attribute__((section(".vectors"))) =
 };
 
 void Reset_Handler(void) {
+	SystemInit();
+	SystemCoreClockUpdate();
 	/* Set the vector table base address */
 	uint32_t *vector_table = (uint32_t *) &_stext;
 	uint32_t *vtor = (uint32_t *)0xE000ED08;
@@ -66,3 +70,4 @@ void NMI_Handler (void)
     }
 
 }
+
