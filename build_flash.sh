@@ -10,3 +10,5 @@ arm-none-eabi-ld -Map app/build/main.map -T app/app.ld -o app/build/main.elf app
 
 arm-none-eabi-objcopy -O binary app/build/main.elf app/build/main.bin
 
+st-flash write app/build/main.bin 0x8000000
+
