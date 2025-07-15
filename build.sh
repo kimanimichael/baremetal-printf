@@ -7,7 +7,8 @@ arm-none-eabi-gcc -O0 -g -Wall -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fp
 arm-none-eabi-gcc -O0 -g -Wall -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -c -o app/build/main.o app/src/main.c
 arm-none-eabi-gcc -O0 -g -Wall -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -c -o app/build/startup.o app/src/startup.c
 arm-none-eabi-gcc -O0 -g -Wall -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -c -o app/build/bootloader.o app/src/bootloader.S
-arm-none-eabi-ld -Map app/build/main.map -T app/app.ld -o app/build/main.elf app/build/bootloader.o app/build/startup.o app/build/bsp.o app/build/system_stm32f4xx.o app/build/main.o
+arm-none-eabi-gcc -O0 -g -Wall -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -c -o app/build/uart.o common/core/uart.c
+arm-none-eabi-ld -Map app/build/main.map -T app/app.ld -o app/build/main.elf app/build/bootloader.o app/build/startup.o app/build/bsp.o app/build/system_stm32f4xx.o app/build/uart.o app/build/main.o
 
 arm-none-eabi-objcopy -O binary app/build/main.elf app/build/main.bin
 

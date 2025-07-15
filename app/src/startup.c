@@ -1,7 +1,7 @@
 #include <inttypes.h>
 #include "../include/bsp.h"
 #include "../../common/include/cmsis/stm32f4xx.h"
-
+#include "../../common/include/core/uart.h"
 
 extern int _stext;
 extern int _sdata;
@@ -40,6 +40,45 @@ unsigned int *vectors[] __attribute__((section(".vectors"))) =
     0,
     (unsigned int *)SysTick_Handler, //SysTick_Handler
     0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    (unsigned int *)usart3_isr, //USART3 ISR
 };
 
 void Reset_Handler(void) {
