@@ -3,10 +3,12 @@
 #include "../../common/include/cmsis/stm32f4xx.h"
 
 
-#define BSP_TICKS_PER_SEC 1000U
+#define SYSTICK_FREQ 1000U
+#define CPU_FREQ 84000000U
+
 
 void BSP_init() {
-    SysTick_Config(84000000/BSP_TICKS_PER_SEC);
+    SysTick_Config(CPU_FREQ/SYSTICK_FREQ);
     BSP_ledInit();
 }
 
@@ -32,7 +34,7 @@ void BSP_blueLedToggle() {
     GPIOx_ODR ^= (0b01 << 7);
 }
 
-uint32_t l_tickrCtr;
+volatile uint32_t l_tickrCtr;
 
 void BSP_Delay(uint32_t ticks) {
     uint32_t start = BSP_Tickr();
