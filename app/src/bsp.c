@@ -10,6 +10,7 @@
 void BSP_init() {
     SysTick_Config(CPU_FREQ/SYSTICK_FREQ);
     BSP_ledInit();
+    BSP_UARTPinsInit();
 }
 
 void BSP_ledInit() {
@@ -24,6 +25,28 @@ void BSP_ledInit() {
     // GPIOA_MODER &= (0b00 << 25);
     /* Bite wise OR the 14th bit of GPIOA_MODER with 1*/
     GPIOA_MODER |= (0b01 << 24);
+}
+
+void BSP_UARTPinsInit() {
+    //Bitwise OR the third bit of RCC_AHB1ENR with 1 to enable GPIOD_EN CLOCK
+    RCC->AHB1ENR |= (0b01 << 3);
+    
+    //Bitwise OR the 17th bit of GPIOD_MODER with 1 - CONFIG PD8 as alternate function
+    GPIOD_MODER |= (0b01 << 17);
+    //Bitwise AND the 16th bit of GPIOD_MODER with 0 - CONFIG PD8 as alternate function
+    GPIOD_MODER &= ~(0b01 << 16);
+
+    //Bitwise OR the 19th bit of GPIOD_MODER with 1 - CONFIG PD9 as alternate function
+    GPIOD_MODER |= (0b01 << 19);
+    //Bitwise AND the 18th bit of GPIOD_MODER with 0 - CONFIG PD9 as alternate function
+    GPIOD_MODER &= ~(0b01 << 18);
+
+    // AF7, USART3TX = PD8
+    GPIOD_AFRH |= (0b01 << 0) | (0b01 << 1) | (0b01 << 2);
+    GPIOD_AFRH &= ~(0b01 << 3);
+    // AF7, USART3RX = PD9
+    GPIOD_AFRH |= (0b01 << 4) | (0b01 << 5) | (0b01 << 6);
+    GPIOD_AFRH &= ~(0b01 << 7);
 }
 
 void BSP_blueLedOn() {
