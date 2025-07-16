@@ -6,9 +6,13 @@
 int main(){
 	BSP_init();
 	uart_setup();
+
+	uint32_t start = BSP_Tickr();
 	while (true){
-		BSP_blueLedToggle();
-		BSP_Delay(100);
+		if ((BSP_Tickr() - start) > 100) {
+			BSP_blueLedToggle();
+			start = BSP_Tickr();
+		}
 
 		if(uart_data_available()) {
 		uint8_t data = uart_read_byte();
