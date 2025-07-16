@@ -33,10 +33,10 @@ void uart_setup(void) {
     /* Set baud rate to 115200 
      * baud = fck /(8 * (2- OVER8)* usart_div)
      * usart_div = fck/(8 * (2- OVER8))/baud
+     * uint32_t usart_div = (UART_FREQUENCY)/8 * (2- 0)/UART_BAUD = 11 = 0xb
+     * uint32_t frac = (float(UART_FREQUENCY)/float(8 * (2- 0))/float(UART_BAUD))*16 = 6.2912 ~ 7 = 0x7
+     * uint32_t brr = 0xb7
     */
-    // uint32_t usart_div = (UART_FREQUENCY)/8 * (2- 0)/UART_BAUD = 11 = 0xb
-    // uint32_t frac = (float(UART_FREQUENCY)/float(8 * (2- 0))/float(UART_BAUD))*16 = 6.2912 ~ 7 = 0x7
-
     USART3->BRR |= 0xb7;
 
     NVIC_EnableIRQ(USART3_IRQn);
