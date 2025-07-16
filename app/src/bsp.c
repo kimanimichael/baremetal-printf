@@ -1,8 +1,16 @@
 #include "../include/bsp.h"
+#include <inttypes.h>
+#include "../../common/include/cmsis/stm32f4xx.h"
+
+
+#define SYSTICK_FREQ 1000U
+#define CPU_FREQ 84000000U
+
 
 void BSP_init() {
-    
+    SysTick_Config(CPU_FREQ/SYSTICK_FREQ);
     BSP_ledInit();
+    BSP_UARTPinsInit();
 }
 
 void BSP_ledInit() {
@@ -19,11 +27,60 @@ void BSP_ledInit() {
     GPIOA_MODER |= (0b01 << 24);
 }
 
+void BSP_UARTPinsInit() {
+    //Bitwise OR the third bit of RCC_AHB1ENR with 1 to enable GPIOD_EN CLOCK
+    RCC->AHB1ENR |= (0b01 << 3);
+    
+    //Bitwise OR the 17th bit of GPIOD_MODER with 1 - CONFIG PD8 as alternate function
+    GPIOD_MODER |= (0b01 << 17);
+    //Bitwise AND the 16th bit of GPIOD_MODER with 0 - CONFIG PD8 as alternate function
+    GPIOD_MODER &= ~(0b01 << 16);
+
+    //Bitwise OR the 19th bit of GPIOD_MODER with 1 - CONFIG PD9 as alternate function
+    GPIOD_MODER |= (0b01 << 19);
+    //Bitwise AND the 18th bit of GPIOD_MODER with 0 - CONFIG PD9 as alternate function
+    GPIOD_MODER &= ~(0b01 << 18);
+
+    // AF7, USART3TX = PD8
+    GPIOD_AFRH |= (0b01 << 0) | (0b01 << 1) | (0b01 << 2);
+    GPIOD_AFRH &= ~(0b01 << 3);
+    // AF7, USART3RX = PD9
+    GPIOD_AFRH |= (0b01 << 4) | (0b01 << 5) | (0b01 << 6);
+    GPIOD_AFRH &= ~(0b01 << 7);
+}
+
 void BSP_blueLedOn() {
     GPIOx_ODR |= (0b01 << 7);
 }
 
 void BSP_blueLedToggle() {
     GPIOx_ODR ^= (0b01 << 7);
+}
+
+volatile uint32_t l_tickrCtr;
+
+void BSP_Delay(uint32_t ticks) {
+    uint32_t start = BSP_Tickr();
+    while ((BSP_Tickr() - start) < ticks)
+    {
+        /* code */
+
+    }
+    
+
+}
+
+uint32_t BSP_Tickr(void) {
+    uint32_t tickrCtr;
+
+    __disable_irq();
+    tickrCtr = l_tickrCtr;
+    __enable_irq();
+
+    return tickrCtr;
+}
+
+void SysTick_Handler(void) {
+    ++l_tickrCtr;
 }
 

@@ -1,5 +1,7 @@
 #include <inttypes.h>
 #include "../include/bsp.h"
+#include "../../common/include/cmsis/stm32f4xx.h"
+#include "../../common/include/core/uart.h"
 
 extern int _stext;
 extern int _sdata;
@@ -11,6 +13,13 @@ extern int _ebss;
 void NMI_Handler(void);
 void HardFault_Handler(void);
 void Reset_Handler(void);
+void MemManage_Handler(void);
+void BusFault_Handler(void);
+void UsageFault_Handler(void);
+void SysTick_Handler(void);
+
+void SystemInit(void);
+void SystemCoreClockUpdate(void);
 
 unsigned int *vectors[] __attribute__((section(".vectors"))) = 
 {
@@ -18,9 +27,63 @@ unsigned int *vectors[] __attribute__((section(".vectors"))) =
     (unsigned int *)Reset_Handler, // Pointer to our reset handler - also our startup code
     (unsigned int *)NMI_Handler, //NMI
     (unsigned int *)HardFault_Handler, //HardFault
+	(unsigned int *)MemManage_Handler, //MemManage
+    (unsigned int *)BusFault_Handler, //BusFault
+    (unsigned int *)UsageFault_Handler, //MemManage
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    (unsigned int *)SysTick_Handler, //SysTick_Handler
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    (unsigned int *)usart3_isr, //USART3 ISR
 };
 
 void Reset_Handler(void) {
+	SystemInit();
+	SystemCoreClockUpdate();
 	/* Set the vector table base address */
 	uint32_t *vector_table = (uint32_t *) &_stext;
 	uint32_t *vtor = (uint32_t *)0xE000ED08;
@@ -66,3 +129,41 @@ void NMI_Handler (void)
     }
 
 }
+
+void MemManage_Handler (void) 
+{
+    #ifdef DEBUG
+    __BKPT(0);
+    #endif
+    while (1)
+    {
+        /* code */
+        
+    }
+    
+}
+
+void BusFault_Handler (void) 
+{
+    #ifdef DEBUG
+    __BKPT(0);
+    #endif
+    while (1)
+    {
+        /* code */
+    }
+    
+}
+
+void UsageFault_Handler (void) 
+{
+    #ifdef DEBUG
+    __BKPT(0);
+    #endif
+    while (1)
+    {
+        /* code */
+    }
+    
+}
+
