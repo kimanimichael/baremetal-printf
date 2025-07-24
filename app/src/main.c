@@ -20,11 +20,13 @@ int main(){
 			printf("LED toggled\r\n");
 			start = BSP_Tickr();
 		}
-
-		if(uart_data_available()) {
-		uint8_t data = uart_read_byte();
-		uart_write_byte(data);
-	}
+		for (int i = 0; i<11; i++) {
+		  printf("Row: %d\n\r", i);
+		  BSP_Delay(500);
+	  	}
+		printf("\ec");
+		printf("\n\n\n\r");
+		BSP_Delay(2000);
 	}
 }
 
