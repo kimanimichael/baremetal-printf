@@ -11,7 +11,7 @@ arm-none-eabi-gcc -O0 -g -Wall -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fp
 arm-none-eabi-gcc -O0 -g -Wall -mcpu=cortex-m4 -mthumb -mfloat-abi=hard --specs=nano.specs -mfpu=fpv4-sp-d16 -c -o app/build/uart.o common/core/uart.c
 # arm-none-eabi-ld --specs=nosys.specs -Map app/build/main.map -T app/app.ld -o app/build/main.elf app/build/bootloader.o app/build/startup.o app/build/bsp.o app/build/system_stm32f4xx.o app/build/uart.o app/build/main.o
 
-arm-none-eabi-gcc -o app/build/main.elf app/build/bootloader.o app/build/startup.o app/build/syscalls.o app/build/bsp.o app/build/system_stm32f4xx.o app/build/uart.o app/build/main.o   -mcpu=cortex-m4 -T app/app.ld --specs=nosys.specs -Wl,-Map=app/build/main.map -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+arm-none-eabi-gcc -o app/build/main.elf app/build/bootloader.o app/build/startup.o app/build/syscalls.o app/build/bsp.o app/build/system_stm32f4xx.o app/build/uart.o app/build/main.o   -mcpu=cortex-m4 -T app/app.ld --specs=nosys.specs -Wl,-Map=app/build/main.map -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -u _printf_float -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 
 arm-none-eabi-objcopy -O binary app/build/main.elf app/build/main.bin
 

@@ -22,6 +22,7 @@ int main(){
 		}
 		for (int i = 0; i<11; i++) {
 		  printf("Row: %d\n\r", i);
+		  printf("Float test: %.2f\n\r", 3.45);
 		  BSP_Delay(500);
 	  	}
 		printf("\ec");
