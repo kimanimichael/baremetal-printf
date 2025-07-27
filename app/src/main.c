@@ -2,18 +2,11 @@
 #include <stdint.h>
 #include "../include/bsp.h"
 #include "../../common/include/core/uart.h"
+#include <stdio.h>
 
-static uint8_t tiny_strlen(const char *s) {
-    uint8_t len = 0;
-    while (*s++ && (len < UINT8_MAX)) {
-        len++;
-    }
-    return len;
-}
-
-static void mk_logging(const char * log) {
-	uart_write((uint8_t *)log, tiny_strlen(log));
-	uart_write((uint8_t *)"\r\n", 2);  
+int __io_putchar(int data) {
+	uart_write((uint8_t *)&data, 1);
+	return data;
 }
 
 int main(){
@@ -24,14 +17,17 @@ int main(){
 	while (true){
 		if ((BSP_Tickr() - start) > 1000) {
 			BSP_blueLedToggle();
-			mk_logging("LED toggled");
+			printf("LED toggled\r\n");
 			start = BSP_Tickr();
 		}
-
-		if(uart_data_available()) {
-		uint8_t data = uart_read_byte();
-		uart_write_byte(data);
-	}
+		for (int i = 0; i<11; i++) {
+		  printf("Row: %d\n\r", i);
+		  printf("Float test: %.2f\n\r", 3.45);
+		  BSP_Delay(500);
+	  	}
+		printf("\ec");
+		printf("\n\n\n\r");
+		BSP_Delay(2000);
 	}
 }
 
