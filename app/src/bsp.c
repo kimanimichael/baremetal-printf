@@ -1,7 +1,7 @@
-#include "../include/bsp.h"
 #include <inttypes.h>
-#include "../../common/include/cmsis/stm32f4xx.h"
 
+#include "bsp.h"
+#include "stm32f4xx.h"
 
 #define SYSTICK_FREQ 1000U
 #define CPU_FREQ 84000000U

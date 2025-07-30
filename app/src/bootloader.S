@@ -1,2 +1,2 @@
 .section .bootloader_section
-    .incbin "../../bootloader/cmake-build/baremetal_bootloader.bin"
+    .incbin "../../dev_tools/baremetal_bootloader.bin"
