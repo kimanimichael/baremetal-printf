@@ -1,5 +1,6 @@
 cmake -S ./bootloader/  -B bootloader/cmake-build/ -G Ninja
 cmake --build bootloader/cmake-build/
+cp bootloader/cmake-build/baremetal_bootloader.bin dev_tools/
 
-cmake -S ./app/  -B app/cmake-build/ -G Ninja
-cmake --build app/cmake-build/
+cmake -S .  -B cmake-build/ -G Ninja
+cmake --build cmake-build/
